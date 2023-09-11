@@ -110,7 +110,7 @@ li {
     border: none;
 }
 
-.todoitem:hover .deletebtn {
+.todo-item:hover .deletebtn {
     display: block;
     
 }
