@@ -63,11 +63,11 @@ const TodoList = () => {
                 <ListDisplay className="list-item" items={items} handleClick={(item) => {
                   setItems(items.filter((i) => i !== item));
                 }}/>
-              <div className="d-flex justify-content-between"> 
+              <div className="footer d-flex justify-content-between"> 
                 <div className="counter align-baseline">
                   {items.length == null ? 0: items.length} items left
                 </div>
-                <DeleteAll className="delete-all" items={items} handleClick={(item) => {
+                <DeleteAll className="delete-all" items={items} handleClick={(items) => {
                   setItems(items=[]);
                 }}/> 
               </div>
@@ -114,7 +114,7 @@ const TodoList = () => {
     }
 
     const DeleteAll = (props) => (
-      <button type="button" className="btn btn-primary" onClick={() => props.handleClick(props.name)}>Delete All</button>
+      <button type="button" className="btn btn-primary" onClick={() => props.handleClick(items)}>Delete All</button>
     )
     
     export default TodoList;

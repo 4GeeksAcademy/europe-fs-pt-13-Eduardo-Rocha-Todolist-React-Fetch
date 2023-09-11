@@ -114,3 +114,9 @@ li {
     display: block;
     
 }
+
+.footer {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    height: auto;
+}
