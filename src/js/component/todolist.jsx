@@ -67,9 +67,7 @@ const TodoList = () => {
                 <div className="counter align-baseline">
                   {items.length == null ? 0: items.length} items left
                 </div>
-                <DeleteAll className="delete-all" items={items} handleClick={(items) => {
-                  setItems(items=[]);
-                }}/> 
+                <button type="button" className="delete-all btn btn-primary" onClick={() => setItems([])}>Delete All</button> 
               </div>
           </div>
           <div className="subcontainerone"></div>
@@ -112,9 +110,5 @@ const TodoList = () => {
         </form>
       )
     }
-
-    const DeleteAll = (props) => (
-      <button type="button" className="btn btn-primary" onClick={() => props.handleClick(items)}>Delete All</button>
-    )
     
     export default TodoList;
