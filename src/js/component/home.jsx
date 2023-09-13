@@ -1,15 +1,15 @@
 import React from "react";
-import TodoList from "./todolist";
+import TodoList from "./todolist.jsx";
 
 //include images into your bundle
 //import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
+	//const (listItem, setListItem) = useState('');
+
 	return (
-		<div className="text-center">
-			< TodoList />
-		</div>
+		<TodoList />
 	);
 };
 
