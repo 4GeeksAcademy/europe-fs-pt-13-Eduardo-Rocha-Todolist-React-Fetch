@@ -110,13 +110,7 @@ li {
     border: none;
 }
 
-.todo-item:hover .deletebtn {
+.todoitem:hover .deletebtn {
     display: block;
     
-}
-
-.footer {
-    padding-top: 3px;
-    padding-bottom: 3px;
-    height: auto;
 }
