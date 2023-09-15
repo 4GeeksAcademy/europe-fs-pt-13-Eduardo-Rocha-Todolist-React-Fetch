@@ -76,15 +76,15 @@ export default TodoList;
   const ListDisplay = (props) => {
     fetch('https://playground.4geeks.com/apis/fake/todos/user/eduardo', { // this creates the user eduardo if not detected in the server
     method: 'PUT',
-    body: JSON.stringify([items]),
     headers: {
       'Content-Type': 'application/json'
-    }
+    },
+    body: JSON.stringify(props.items),
     })
     .then(response => response.json())
     .then(data => {
       console.log(data)
-      setItems(items)
+      setItems(data)
     })
     
     const items = props.items.map((item, i) => (
