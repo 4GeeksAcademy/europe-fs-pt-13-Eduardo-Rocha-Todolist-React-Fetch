@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 
+
 const TodoList = () => {
   const [items, setItems] = useState([]);
     
-
     // useEffect to GET user data
   useEffect(()=>{
     fetch('https://playground.4geeks.com/apis/fake/todos/user/eduardo')
@@ -15,10 +15,8 @@ const TodoList = () => {
         }
         throw response;    
     })
-
     .then(data => {
-        setItems(data.map(item => item.task));
-        console.log(data); //this will print on the console the exact object received from the server
+        setItems(data);
     })
     .catch(error => {
         console.error("Error fetching date: ", error);
@@ -39,17 +37,33 @@ const TodoList = () => {
     });
   }, [])
 
+
+  const updateList = (newItems) => {
+    fetch('https://playground.4geeks.com/apis/fake/todos/user/eduardo', { // this creates the user eduardo if not detected in the server
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newItems),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      setItems(newItems);
+    })
+  }
+
   return (
       <div className="wrapper">
         <h1>todos</h1>
         <div className="row">
         <div className="container col-sm-8">
-              <InputText className="input-item" items={items} handleSubmit={(item) => {
-                setItems(items.concat(item));
+              <InputText className="input-item" items={items} handleSubmit={(label) => {
+                updateList(items.concat({label: label, done: false}))
               }}/>
               <ListDisplay className="list-item" items={items} handleClick={(item) => {
-                setItems(items.filter((i) => i !== item));
-              }}/>
+                  updateList(items.filter((i) => i.label !== item.label ))
+                }} />
             <div className="footer d-flex justify-content-between"> 
               <div className="counter align-baseline">
                 {items.length == null ? 0: items.length} items left
@@ -65,53 +79,40 @@ const TodoList = () => {
 }
 
 export default TodoList;
+  
+const ListDisplay = (props) => {
+  const items = props.items.length !== 0 ? props.items.map((item, i) => (
+    <ListItem
+      key={i}
+      item={item}
+      handleClick={props.handleClick}
+    />
+  )) : []
 
-  
-  const ListItem = (props) => (
-    <li className="todoitem d-flex justify-content-between">{props.name}
-      <button className="deletebtn" onClick={() => props.handleClick(props.name)}>X</button>
-    </li>
+  return (
+    <ul>
+      {items}
+    </ul>
   )
+}
+
+const ListItem = (props) => {
+  return (<li className="todoitem d-flex justify-content-between">{props.item.label}
+    <button className="deletebtn" onClick={() => props.handleClick(props.item)}>X</button>
+  </li>)
+};
   
-  const ListDisplay = (props) => {
-    fetch('https://playground.4geeks.com/apis/fake/todos/user/eduardo', { // this creates the user eduardo if not detected in the server
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(props.items),
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-      setItems(data)
-    })
-    
-    const items = props.items.map((item, i) => (
-      <ListItem
-        key={i}
-        name={item}
-        handleClick={props.handleClick}
-      />
-    ))
-    return (
-      <ul>
-        {items}
-      </ul>
-    )
-  }
-  
-  const InputText = (props) => {
-    const [value, setValue] = useState('');
-    return (
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        {value === "" ? "" : props.handleSubmit(value.trim())};
-        setValue('');
-      }}>
-      <input type="text" value={value} placeHolder={props.items.length == 0 ? "No tasks, add a task" : "What needs to be done?"} onChange={e => setValue(e.target.value)}/>
-      </form>
-    ) 
-  }
+const InputText = (props) => {
+  const [value, setValue] = useState('');
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      {value === "" ? "" : props.handleSubmit(value.trim())};
+      setValue('');
+    }}>
+    <input type="text" value={value} placeholder={props.items.length == 0 ? "No tasks, add a task" : "What needs to be done?"} onChange={e => setValue(e.target.value)}/>
+    </form>
+  ) 
+}
   
     
