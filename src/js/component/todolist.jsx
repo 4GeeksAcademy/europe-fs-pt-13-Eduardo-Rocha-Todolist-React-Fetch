@@ -53,6 +53,13 @@ const TodoList = () => {
     })
   }
 
+  const handleDelete= id => {
+    const newItems = [...items];
+    newItems.splice(id, 1);
+    console.log(newItems)
+    setItems(newItems)
+  }
+
   return (
       <div className="wrapper">
         <h1>todos</h1>
@@ -61,9 +68,13 @@ const TodoList = () => {
               <InputText className="input-item" items={items} handleSubmit={(label) => {
                 updateList(items.concat({label: label, done: false}))
               }}/>
-              <ListDisplay className="list-item" items={items} handleClick={(item) => {
-                  updateList(items.filter((i) => i.label !== item.label ))
-                }} />
+              <ul>
+              {items.map((items, index) => 
+              <div className="todoitem d-flex justify-content-between" key={index}>{items.label}
+                <button className="deletebtn" onClick={() => {handleDelete(index)}}>X</button>
+              </div>
+              )}
+              </ul>
             <div className="footer d-flex justify-content-between"> 
               <div className="counter align-baseline">
                 {items.length == null ? 0: items.length} items left
@@ -79,28 +90,6 @@ const TodoList = () => {
 }
 
 export default TodoList;
-  
-const ListDisplay = (props) => {
-  const items = props.items.length !== 0 ? props.items.map((item, i) => (
-    <ListItem
-      key={i}
-      item={item}
-      handleClick={props.handleClick}
-    />
-  )) : []
-
-  return (
-    <ul>
-      {items}
-    </ul>
-  )
-}
-
-const ListItem = (props) => {
-  return (<li className="todoitem d-flex justify-content-between">{props.item.label}
-    <button className="deletebtn" onClick={() => props.handleClick(props.item)}>X</button>
-  </li>)
-};
   
 const InputText = (props) => {
   const [value, setValue] = useState('');
