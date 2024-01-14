@@ -6,7 +6,6 @@ import TodoList from "./todolist.jsx";
 
 //create your first component
 const Home = () => {
-	//const (listItem, setListItem) = useState('');
 
 	return (
 		<TodoList />

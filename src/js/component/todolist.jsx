@@ -58,6 +58,19 @@ const TodoList = () => {
     newItems.splice(id, 1);
     console.log(newItems)
     setItems(newItems)
+    
+    fetch('https://playground.4geeks.com/apis/fake/todos/user/eduardo', { // this creates the user eduardo if not detected in the server
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newItems),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      setItems(newItems);
+    })
   }
 
   return (
